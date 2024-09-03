@@ -1,0 +1,22 @@
+{
+    "manifest_version": 3,
+    "name": "Tab baru",
+    "description": "Ekstensi Arkais chrome.",
+    "version": "1.0",
+    "chrome_url_overrides" : {
+      "newtab": "index.html"
+    },
+    "action": {
+      "default_icon": {
+        "16": "",
+        "48": "",
+        "128": ""
+      }
+    },
+    "icons": {
+      "16": "",
+      "48": "",
+      "128": ""
+    }
+  }
+  

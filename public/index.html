@@ -1,0 +1,66 @@
+<!-- frontend/index.html atau backend/public/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Arkais - 5 Kata Arkais</title>
+  <!-- Menghubungkan file CSS Tailwind -->
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 p-8">
+  <!-- Header -->
+  <h1 class="text-3xl font-bold text-center text-gray-900 mb-6">5 Kata Arkais</h1>
+
+  <!-- Kontainer untuk daftar kata -->
+  <div id="content" class="w-full max-w-md mx-auto bg-white rounded-lg shadow-md p-6 space-y-4">
+    <!-- Data kata akan diisi secara dinamis oleh JavaScript -->
+  </div>
+
+  <!-- Tombol untuk mengunjungi website utama -->
+  <div class="flex justify-center mt-6">
+    <button id="website-link" class="bg-yellow-400 text-gray-900 px-4 py-2 rounded-lg hover:bg-yellow-500">
+      Kunjungi Website
+    </button>
+  </div>
+
+  <!-- Skrip untuk mengambil data dari backend dan menampilkan -->
+  <script type="module">
+    import WordUsecase from './usecases/WordUsecase'; // Sesuaikan path jika perlu
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      const wordUsecase = new WordUsecase(); // Menggunakan default baseURL
+
+      try {
+        const data = await wordUsecase.fetchWords(); // Ambil semua data
+
+        const content = document.getElementById('content');
+        const topWords = data.slice(0, 5); // Ambil 5 kata pertama
+
+        topWords.forEach(item => {
+          const wordElement = document.createElement('div');
+          wordElement.className = 'p-4 bg-gray-100 rounded-md shadow';
+
+          wordElement.innerHTML = `
+            <div class="text-xl font-semibold text-gray-900">${item.kata}</div>
+            <div class="text-sm text-gray-600">Makna: ${item.makna}</div>
+            <div class="text-sm text-gray-500">Jenis: ${item.jenisKata}</div>
+          `;
+
+          content.appendChild(wordElement);
+        });
+      } catch (error) {
+        console.error('Error fetching data:', error);
+        const content = document.getElementById('content');
+        content.innerHTML = '<p class="text-red-500">Gagal memuat data.</p>';
+      }
+
+      // Tambahkan event listener ke tombol link
+      const websiteLinkButton = document.getElementById('website-link');
+      websiteLinkButton.addEventListener('click', () => {
+        window.open('https://your-website-url.com', '_blank'); // Ganti dengan URL website utama Anda
+      });
+    });
+  </script>
+</body>
+</html>
